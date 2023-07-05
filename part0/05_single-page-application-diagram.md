@@ -22,5 +22,5 @@ sequenceDiagram
     server -->> browser: application/json (json file)
     deactivate server
 
-    Note right of browser: After receiving json.data browser renders the content in the window
+    Note right of browser: After receiving json.data browser renders the content in the window.
 ```
