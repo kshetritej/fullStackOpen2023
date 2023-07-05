@@ -7,24 +7,24 @@ sequenceDiagram
     server -->> browser: text/html Document
     deactivate server
 
-    browser --> server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    browser ->> server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server -->> browser: text/html Document
     deactivate server
 
-    browser --> server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    browser ->> server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
     server -->> browser: text/css (the css file)
     deactivate server
 
-    browser --> server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    browser ->> server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
     activate server
     server -->> browser: application/javascript (the js file)
     deactivate server
 
     Note right of browser: When browser get the js file it starts executing it when it finds the JSON file then for JSON file it again sends request.
 
-    browser --> server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    browser ->> server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
     server -->> browser: application/json (the json file with the content)
     deactivate server
