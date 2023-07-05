@@ -2,7 +2,7 @@
 sequenceDiagram
     participant browser
     participant server
-    browser --> server: POST https://studies.cs.helsinki.fi/exampleapp/new-note
+    browser ->> server: POST https://studies.cs.helsinki.fi/exampleapp/new-note
     activate server
     server -->> browser: text/html Document
     deactivate server
