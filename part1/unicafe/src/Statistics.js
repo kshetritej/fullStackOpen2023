@@ -1,4 +1,9 @@
 const Statistics = (props) =>{
+	if(props.all == 0){
+		return(
+			<p>No feedbacks given</p>
+		)
+	}
 	return(
 		<div>
 		<p> Good {props.good} </p>
