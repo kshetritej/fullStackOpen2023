@@ -22,18 +22,38 @@ const randomNumber =()=>{
 		rand
 	)
 }
+//const points = new Array(8+1).join('0').split('').map(parseFloat)
+const points =[1,2,3,4,5,6,7]
+const pointsCopy = [...points]
+
+console.log(points)
+
+const updateVote = () =>{
+	return(
+		pointsCopy[selected] += 1,
+		console.log(pointsCopy[selected])
+	)
+}
 
 const newAnecdote =() =>{
 	return(
 		setSelected(randomNumber())
 	)
 }
+const highestVote = Math.max(...pointsCopy)
+console.log("hv",highestVote)
 
 return (
 	<div>
-	<p> {anecdotes[selected]} </p>
+	<h1> Anecdote of the day </h1>
+	<p> {anecdotes[randomNumber()]} </p>
 	<div>
+	<p> VOTES : {pointsCopy[selected]} </p>
+	<Button handleClick = {updateVote}  text = "vote"/> 
 	<Button handleClick = {newAnecdote} text="roll again!"  />
+	<h1> Anecdote with most votes </h1>
+	<p> {anecdotes[highestVote]}</p>
+	<p> {highestVote} votes </p>
 	</div>
 	</div>
 )
