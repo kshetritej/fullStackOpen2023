@@ -1,8 +1,13 @@
 const StatisticLine = (props) =>{
 	return(
-		<div>
-		<p>{props.text} {props.value}</p>
-		</div>
+	
+		<tbody>
+		<tr>
+			<td> {props.text} </td>
+			<td>{props.value} </td>
+		</tr>
+		</tbody>
+
 	)
 }
 export default StatisticLine;

@@ -49,7 +49,8 @@ const App = () =>{
 			<Button handleClick = {countBad} text = "Bad" />
 	
 		<h1> Statistics </h1>
-		<Statistics good = {good} neutral = {neutral} bad = {bad} all={total} average={calcAverage()} positive = {calcPositive()} />
+	<div>	<Statistics good = {good} neutral = {neutral} bad = {bad} all={total} average={calcAverage()} positive = {calcPositive()} />
+	</div>
 		</div>
 	)
 
