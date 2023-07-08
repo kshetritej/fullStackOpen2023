@@ -30,12 +30,12 @@ const App = () =>{
 	}
 	const calcAverage = () =>{
 		const average = total/3
-		return(average)
+		return(average.toFixed(2))
 	}
 	const calcPositive = () =>{
 			const positivePercentage =((good/total) *100)
 		return(
-			Number(positivePercentage) + "%")
+			Number(positivePercentage.toFixed(2)) + "%")
 	}
 	console.log("good", good)
 	console.log("neutral", neutral)
