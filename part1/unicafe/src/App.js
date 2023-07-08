@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import Button from './Button'
+import Statistics from './Statistics'
 
 const App = () =>{
 	//saves clicks of each button to its own state
@@ -48,12 +49,7 @@ const App = () =>{
 			<Button handleClick = {countBad} text = "Bad" />
 	
 		<h1> Statistics </h1>
-		<p> Good {good} </p>
-		<p> Neutral {neutral} </p>
-		<p> Bad {bad} </p>
-		<p> Total Feedback Received : {total} </p>
-		<p> Average : {calcAverage()} </p>
-		<p> Positive Feedbacks : {calcPositive()}</p>
+		<Statistics good = {good} neutral = {neutral} bad = {bad} all={total} average={calcAverage()} positive = {calcPositive()} />
 		</div>
 	)
 
