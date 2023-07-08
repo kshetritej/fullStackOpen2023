@@ -6,28 +6,40 @@ const App = () =>{
 	const [good, setGood] = useState(0)
 	const [neutral, setNeutral] = useState(0)
 	const [bad, setBad] = useState(0)
-	
+	const [total, setTotal] = useState(0)
+
 	const countGood = () =>{
 		return (
-			setGood(good + 1)
-			
+			setGood(good + 1),
+			setTotal(total +1)
 		)
 	}
 	
 	const countNeutral = () => {
 		return (
-			setNeutral(neutral +1)
+			setNeutral(neutral +1),
+			setTotal(total + 1)
 		)
 	}
 	const countBad = () =>{
 		return (
-			setBad(bad + 1)
+			setBad(bad + 1),
+			setTotal(total +1)
 		)
 	}
-
+	const calcAverage = () =>{
+		const average = total/3
+		return(average)
+	}
+	const calcPositive = () =>{
+			const positivePercentage =((good/total) *100)
+		return(
+			Number(positivePercentage) + "%")
+	}
 	console.log("good", good)
 	console.log("neutral", neutral)
 	console.log("bad", bad)
+	console.log("total", total)
 	return (
 		<div>
 			<h1> Give Feedback </h1>
@@ -39,7 +51,9 @@ const App = () =>{
 		<p> Good {good} </p>
 		<p> Neutral {neutral} </p>
 		<p> Bad {bad} </p>
-
+		<p> Total Feedback Received : {total} </p>
+		<p> Average : {calcAverage()} </p>
+		<p> Positive Feedbacks : {calcPositive()}</p>
 		</div>
 	)
 
