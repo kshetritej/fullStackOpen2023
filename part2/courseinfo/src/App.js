@@ -1,5 +1,5 @@
-import React from 'react';
-import Course from '.components/Course';
+import React from 'react'
+import Course from './components/Course'
 
 const App = () => {
   const course = {
@@ -7,13 +7,13 @@ const App = () => {
     name: 'Half Stack application Development',
     parts:[
       {
-        name: 'Fundamentals of Ract',
+        name: 'Fundamentals of React',
         exercises: 10,
         id: 1,
       },
       {
         name: 'Using props to pass data',
-        exercises: 7,
+        exercises: 7,    
         id: 2,
       },
       {
@@ -23,7 +23,12 @@ const App = () => {
       }
     ]
   }
-  return <Course course = {course}/>
+  return (
+    <>
+    <Course course = {course} />
+
+    </>
+  )
 }
 
 export default App

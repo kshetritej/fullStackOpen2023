@@ -1,12 +1,12 @@
-import Header from '.components/Header';
-import Content from '.components/Content';
+import Header from './Header'
+import Content from './Content'
 
-const Course = (props) =>{
+const Course = ({ course }) => {
     return (
-        <div>
-            <Header course = {props.name} />
-            <Content content = {props.parts} />
-        </div>
+        <>
+            <Header course = {course.name}/>
+            <Content parts= {course.parts} exercises = {course.exercises} />
+        </>
     )
 }
 
