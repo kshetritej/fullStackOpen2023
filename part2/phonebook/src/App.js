@@ -5,9 +5,9 @@ const App = () => {
 	const [person, setPerson] = useState([])
 	const [newName, setNewName] = useState('')
 	const [newPhone, setNewPhone] = useState('')
-	
-	const handleNameChange = (event) =>{
-		
+
+	const handleNameChange = (event) => {
+
 		setNewName(event.target.value)
 		console.log(event.target.value)
 	}
@@ -15,43 +15,71 @@ const App = () => {
 		setNewPhone(event.target.value)
 		console.log(event.target.value)
 	}
+	const existingPerson = person.map(per => per.name)
+
+	console.log("thy are already here", existingPerson)
+
+	// const addPerson = (event) => {
+	// 	event.preventDefault()
+	// 	const personObject = {
+	// 		name: newName,
+	// 		phone: newPhone,
+	// 		id: person.length+1,
+	// 	}
+
+	// 	console.log("personObj",personObject)
+	// 	console.log("onlyPerson",person)
+	// 	setPerson(person.concat(personObject))
+	// 	setNewName('')
+	// 	setNewPhone('')
+
+	// }
 
 	const addPerson = (event) => {
-		event.preventDefault()
+		event.preventDefault();
+		const nameExists = person.filter((per) => per.name === newName);
+
+		if (nameExists.length > 0) {
+			alert(`${newName} already exists.`)
+			return;
+		}
+
 		const personObject = {
 			name: newName,
 			phone: newPhone,
-			id: person.length+1,
-		}
-		console.log(personObject)
-		console.log(person)
-		setPerson(person.concat(personObject))
-		setNewName('')
-		setNewPhone('')
-	}
+			id: person.length + 1,
+		};
+
+		console.log("personObj", personObject);
+		console.log("onlyPerson", person);
+		setPerson([...person, personObject]);
+		setNewName("");
+		setNewPhone("");
+	};
+
 
 	return (
 		<div>
 			<div>
-			<h2> Add to Phonebook </h2>
-			<form onSubmit = {addPerson} >
-				<div>
-				Name: <input type="text" value ={newName} onChange = {handleNameChange} />
-				</div>
-			
-				<div>
-				Phone: <input type="number" value ={newPhone} onChange = {handleNumberChange} />
-				</div>
-				
-				<div>
-				<button type="submit"> Add </button>
-				</div>
-			</form>
+				<h2> Add to Phonebook </h2>
+				<form onSubmit={addPerson} >
+					<div>
+						Name: <input type="text" value={newName} onChange={handleNameChange} />
+					</div>
+
+					<div>
+						Phone: <input type="number" value={newPhone} onChange={handleNumberChange} />
+					</div>
+
+					<div>
+						<button type="submit"> Add </button>
+					</div>
+				</form>
 			</div>
 			<div>
-			<h2>Phonebook</h2>
-			{person.map(per =>
-				<Person key={per.id} name={per.name} number={per.phone} />)}
+				<h2>Phonebook</h2>
+				{person.map(per =>
+					<Person key={per.id} name={per.name} number={per.phone} />)}
 			</div>
 		</div>
 	)
