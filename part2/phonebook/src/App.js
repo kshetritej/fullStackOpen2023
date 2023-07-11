@@ -15,25 +15,6 @@ const App = () => {
 		setNewPhone(event.target.value)
 		console.log(event.target.value)
 	}
-	const existingPerson = person.map(per => per.name)
-
-	console.log("thy are already here", existingPerson)
-
-	// const addPerson = (event) => {
-	// 	event.preventDefault()
-	// 	const personObject = {
-	// 		name: newName,
-	// 		phone: newPhone,
-	// 		id: person.length+1,
-	// 	}
-
-	// 	console.log("personObj",personObject)
-	// 	console.log("onlyPerson",person)
-	// 	setPerson(person.concat(personObject))
-	// 	setNewName('')
-	// 	setNewPhone('')
-
-	// }
 
 	const addPerson = (event) => {
 		event.preventDefault();
