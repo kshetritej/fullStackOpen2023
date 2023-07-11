@@ -2,12 +2,14 @@ import { useState } from 'react'
 import Person from './Person'
 
 const App = () => {
-	const [person, setPerson] = useState([])
+	const [person, setPerson] = useState([
+		{name: 'John Cena', phone: '911'},
+	])
 	const [newName, setNewName] = useState('')
 	const [newPhone, setNewPhone] = useState('')
+	const [searchTerm, setSearchTerm] = useState('')
 
 	const handleNameChange = (event) => {
-
 		setNewName(event.target.value)
 		console.log(event.target.value)
 	}
@@ -15,6 +17,13 @@ const App = () => {
 		setNewPhone(event.target.value)
 		console.log(event.target.value)
 	}
+	const handleSearch = (event) =>{
+		setSearchTerm(event.target.value)
+	}
+	const filteredPersons = person.filter((per) =>
+    per.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
 
 	const addPerson = (event) => {
 		event.preventDefault();
@@ -42,8 +51,18 @@ const App = () => {
 	return (
 		<div>
 			<div>
-				<h2> Add to Phonebook </h2>
+				<h2>Phonebook </h2>
+				<div className="search">
+					<h2>Search Phonebook</h2>
+					<input type="search" value = {searchTerm} onChange = {handleSearch}/>
+					<div className ="serach-results">
+						{filteredPersons.map((per) => (
+          <Person key={per.id} name={per.name} number={per.phone} />
+        ))}
+					</div>
+				</div>
 				<form onSubmit={addPerson} >
+					<h2>Add to Phonebook</h2>
 					<div>
 						Name: <input type="text" value={newName} onChange={handleNameChange} />
 					</div>
@@ -58,7 +77,7 @@ const App = () => {
 				</form>
 			</div>
 			<div>
-				<h2>Phonebook</h2>
+				<h2>Phonebook List</h2>
 				{person.map(per =>
 					<Person key={per.id} name={per.name} number={per.phone} />)}
 			</div>
