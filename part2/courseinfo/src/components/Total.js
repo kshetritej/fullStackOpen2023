@@ -1,13 +1,11 @@
 const Total = ({ parts }) => {
 
-    const totalExercises = parts.reduce((previousVal, exercises) => {
-        return previousVal += exercises.length
-    }, 0)
-
+    let totalExercises = parts.reduce(function (sum, part){
+        return sum + part.exercises
+    },0)
+    
     return(
-        <>
-        <h4> Total Exercises: {totalExercises} </h4>
-        </>
+        <h4>Total exercises: {totalExercises} </h4>
     )
 }
 

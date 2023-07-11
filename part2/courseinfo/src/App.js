@@ -25,13 +25,18 @@ const App = () => {
         name: 'Redux',
         exercises: 13,
         id: 4,
+      },
+      {
+        name: 'TypeScript',
+        exercises: 50,
+        id: 5,
       }
     ]
   }
   return (
     <>
     <Course course = {course} />
-
+    
     </>
   )
 }
