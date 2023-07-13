@@ -2,6 +2,7 @@ import {useState} from 'react'
 import Button from './Button'
 import Statistics from './Statistics'
 
+
 const App = () =>{
 	//saves clicks of each button to its own state
 	const [good, setGood] = useState(0)
