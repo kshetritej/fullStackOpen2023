@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import Person from './Person'
-import PersonForm from './PersonForm'
-import Filter from './Filter'
+import Person from './components/Person'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 import axios from 'axios'
+import nameService from './services/persons.js'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,15 +11,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setSearch] = useState('')
 
-  const hook = () => {
-    axios
-    .get('http://localhost:3000/persons')
-    .then(response =>{
-      setPersons(response.data)
+  useEffect (() =>{
+    nameService
+    .getAll()
+    .then(initialNames => {
+      setPersons(initialNames)
     })
-  }
-
-  useEffect(hook,[])
+  },[])
 
   const addName = (event) => {
     event.preventDefault()
@@ -33,10 +32,11 @@ const App = () => {
       phone: newNumber,
       id: persons.length + 1,
     }
-    setPersons(persons.concat(nameObject))
-    setNewNumber('')
-    setNewName('')
-    console.log('added', persons)
+    nameService.create(nameObject).then(returnedNames =>{
+      setPersons(persons.concat(returnedNames))
+      setNewName('')
+      setNewNumber('')
+    })
   }
 
   //Let's filter the names
