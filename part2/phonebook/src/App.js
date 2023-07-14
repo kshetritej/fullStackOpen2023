@@ -3,6 +3,7 @@ import Person from './components/Person'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import axios from 'axios'
+import { v4 as uuidv4} from 'uuid'
 import nameService from './services/persons.js'
 
 const App = () => {
@@ -11,13 +12,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setSearch] = useState('')
 
-  useEffect (() =>{
+  useEffect(() => {
     nameService
-    .getAll()
-    .then(initialNames => {
-      setPersons(initialNames)
-    })
-  },[])
+      .getAll()
+      .then(initialNames => {
+        setPersons(initialNames)
+      })
+  }, [])
   // useEffect(()=>{
   //   axios.get('http://localhost:3001/persons').then(response =>{
   //     setPersons(response.data)
@@ -29,20 +30,20 @@ const App = () => {
     // checks if person name already exists in the array
     const personExists = persons.find((per) => per.name.toLowerCase() === newName.toLowerCase());
     if (personExists) {
-      alert(`${newName} already exists in the phonebook.`)
+      alert(`${newName} already exists in the phonebook`)
       return
     }
     const nameObject = {
       name: newName,
       phone: newNumber,
-      id: persons.length + 1,
+      id: uuidv4,
     }
     // axios.post("http://localhost:3001/persons",nameObject).then(response =>{
     //   setPersons(persons.concat(response.data))
     //   setNewName('')
     //   setNewNumber('')
     // })
-    nameService.create(nameObject).then(returnedNames =>{
+    nameService.create(nameObject).then(returnedNames => {
       setPersons(persons.concat(returnedNames))
       setNewName('')
       setNewNumber('')
@@ -67,6 +68,16 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  //For deleting the entry
+  const deleteName = (id) => {
+    const personToDelete = persons[persons.length -1 ].name
+    const addr = window.location.href
+    window.confirm(`Delete ${personToDelete} ?`) ?
+    nameService.deleteData(id).then(returnedData => {
+      setPersons(returnedData)
+    }) :
+    window.location.href = addr
+  }
   //Final Return 
   return (
     <div>
@@ -77,7 +88,8 @@ const App = () => {
 
       <h2>Numbers</h2>
       {persons.map((per) => (
-        <Person key={per.id} name={per.name} number={per.phone} />
+        <Person key={per.id} name={per.name} number={per.phone}
+          deleteName={() => deleteName(per.id)} />
       ))}
     </div>
   )

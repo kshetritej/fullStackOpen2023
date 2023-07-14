@@ -5,7 +5,7 @@ const Filter = (props) => {
         <>
             <div className='search'><h3>Search</h3>
                 <input type="search" value={props.searchValue} onChange={props.onSearchChange} />
-                
+               
                 {props.filterName.map((per) => (
                     props.searchTerm.length > 0 &&
                     <div>
