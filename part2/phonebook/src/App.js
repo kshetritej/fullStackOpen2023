@@ -18,6 +18,11 @@ const App = () => {
       setPersons(initialNames)
     })
   },[])
+  // useEffect(()=>{
+  //   axios.get('http://localhost:3001/persons').then(response =>{
+  //     setPersons(response.data)
+  //   })
+  // },[])
 
   const addName = (event) => {
     event.preventDefault()
@@ -32,6 +37,11 @@ const App = () => {
       phone: newNumber,
       id: persons.length + 1,
     }
+    // axios.post("http://localhost:3001/persons",nameObject).then(response =>{
+    //   setPersons(persons.concat(response.data))
+    //   setNewName('')
+    //   setNewNumber('')
+    // })
     nameService.create(nameObject).then(returnedNames =>{
       setPersons(persons.concat(returnedNames))
       setNewName('')
