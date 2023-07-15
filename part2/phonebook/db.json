@@ -1,28 +1,13 @@
 {
   "persons": [
     {
-      "name": "John Miller",
-      "phone": "0252",
-      "id": 1
-    },
-    {
-      "name": "John miller",
-      "phone": "0009",
-      "id": 3
-    },
-    {
-      "name": "28058028",
-      "phone": "028082",
-      "id": 4
-    },
-    {
-      "name": "john mller",
-      "phone": "02082",
+      "name": "Ragnar Lothbrok",
+      "phone": "02882",
       "id": 5
     },
     {
-      "name": "John Miller",
-      "phone": "8092882",
+      "name": "Bjorn Ironside",
+      "phone": "028582",
       "id": 6
     }
   ]

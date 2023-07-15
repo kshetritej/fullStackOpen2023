@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setSearch] = useState('')
-  const [errorMessage, setErrorMessage] = useState (null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     nameService
@@ -21,6 +21,8 @@ const App = () => {
       })
   }, [])
 
+
+
   const addName = (event) => {
     event.preventDefault()
     // checks if person name already exists in the array
@@ -29,9 +31,9 @@ const App = () => {
     if (personExists) {
       const message = `${newName} already exists in Phonebook`
       setErrorMessage(message)
-      setTimeout(()=>{
+      setTimeout(() => {
         setErrorMessage(null)
-      },3000)
+      }, 3000)
       return
     }
     const nameObject = {
@@ -44,6 +46,8 @@ const App = () => {
       setPersons(persons.concat(returnedNames))
       setNewName('')
       setNewNumber('')
+      setErrorMessage(`${newName} added successfully to Phonebook.`)
+      setTimeout(() => setErrorMessage(null), 2000)
     })
   }
 
@@ -68,12 +72,23 @@ const App = () => {
 
   //For deleting the entry
   const deleteName = (id) => {
-    const personToDelete = persons[persons.length - 1].name
+    const personToDelete =() =>{
+      for(let i =0; i< persons.length; i++){
+        if(persons[i].id === id){
+          return persons[i].name
+        }
+      }
+    }
+   const delPersonName = personToDelete()
     const addr = window.location.href
-    window.confirm(`Delete ${personToDelete} ?`) ?
+    window.confirm(`Delete ${delPersonName} ?`) ?
       nameService.deleteData(id).then(returnedData => {
         setPersons(returnedData)
-      }) :
+      })
+        .catch(error => {
+          error = `The data no longer persist in the database`
+          setErrorMessage(error)
+        }) :
       window.location.href = addr
   }
 
@@ -82,7 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message = {errorMessage} />
+      <Notification message={errorMessage} />
       <Filter searchValue={newSearch} onSearchChange={handleSearchValue} filterName={filteredNames} searchTerm={newSearch} />
 
       <PersonForm onSubmitAction={addName} nameValue={newName} onNameChange={handleNameChange} phoneValue={newNumber} onPhoneChange={handleNumberChange} />
