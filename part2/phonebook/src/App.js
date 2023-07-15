@@ -87,7 +87,7 @@ const App = () => {
       })
         .catch(error => {
           error = `The data no longer persist in the database`
-          setErrorMessage(error)
+          setErrorMessage(error)//handle error with the message
         }) :
       window.location.href = addr
   }
