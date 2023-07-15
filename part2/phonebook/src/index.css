@@ -1,0 +1,13 @@
+body{
+    background-color: aqua;
+}
+
+ul{
+    display: flex;
+
+}
+.warning{
+    background-color: yellow;
+    color: black;
+    padding: 1rem;
+}
