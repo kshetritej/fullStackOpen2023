@@ -104,7 +104,7 @@ const App = () => {
 
       <h2>Numbers</h2>
       {persons.map((per) => (
-        <Person key={per.id} name={per.name} number={per.phone}
+        <Person key={per.id} name={per.name} number={per.number}
           deleteName={() => deleteName(per.id)} />
       ))}
     </div>
