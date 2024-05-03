@@ -1,0 +1,20 @@
+### Get all
+GET http://localhost:8080/api/persons/
+
+### get one
+GET http://localhost:8080/api/persons/:id   
+
+### delete
+DELETE http://localhost:8080/api/persons/:id
+
+
+### post
+POST http://localhost:8080/api/persons/
+X-Powered-By: Express
+Content-Type: application/json
+
+{
+    "name": "John",
+    "age": 30
+}
+
