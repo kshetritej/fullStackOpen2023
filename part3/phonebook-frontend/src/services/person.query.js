@@ -21,7 +21,7 @@ const deletePerson = async (id) => {
 };
 
 const updatePerson = async (id, newPerson) => {
-  const response = await axios.patch(`${baseUrl}/${id}`, newPerson);
+  const response = await axios.put(`${baseUrl}/${id}`, newPerson);
   return response.data;
 };
 

@@ -10,7 +10,7 @@ import {
 function App() {
   const [search, setSearch] = useState("");
   const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
+  const [phone, setPhone] = useState("");
   const [person, setPerson] = useState([]);
 
   useEffect(() => {
@@ -25,35 +25,36 @@ function App() {
     p.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // const personExists =
-  //   person.length > 0 &&
-  //   person.find((per) => per.name.toLowerCase() === name.toLowerCase());
-  // const phoneExists =
-  //   person.length > 0 && person.find((per) => per.number === number);
+  const personExists =
+    person.length > 0 &&
+    person.find((per) => per.name.toLowerCase() === name.toLowerCase());
+  const phoneExists =
+    person.length > 0 && person.find((per) => per.phone === phone);
 
   const handleSubmit = () => {
     event.preventDefault();
-    // if (personExists) {
-    //   window.confirm(
-    //     `${name} name already exist on the phonebook, replace the number with new one?`
-    //   );
-    //   const selectedPerson = person.find((per) => per.name === name);
-    //   selectedPerson.number = number;
-    //   setPerson([...person]);
-    //   return;
-    // }
-    // if (phoneExists) {
-    //   window.confirm(`${number}  already exist on the phonebook`);
-    //   return;
-    // }
+    if (personExists) {
+      window.confirm(
+        `${name} name already exist on the phonebook, replace the phone with new one?`
+      );
+      const selectedPerson = person.find((per) => per.name.toLowerCase() === name.toLowerCase());
+      selectedPerson.phone = phone;
+      updatePerson(selectedPerson.id, selectedPerson);
+      setPerson([...person]);
+      return;
+    }
+    if (phoneExists) {
+      window.confirm(`${phone}  already exist on the phonebook`);
+      return;
+    }
     const body = {
       name: name,
-      phone: number,
+      phone: phone,
     };
     createPerson(body);
     setPerson([...person, body]);
     setName("");
-    setNumber("");
+    setphone("");
   };
 
   const handleDelete = (id) => {
@@ -102,22 +103,22 @@ function App() {
         />{" "}
         &nbsp;
         <input
-          onChange={(e) => setNumber(e.target.value)}
-          type="number"
-          placeholder="Enter number"
-          name="number"
-          id="number"
-          value={number}
+          onChange={(e) => setPhone(e.target.value)}
+          type="phone"
+          placeholder="Enter phone"
+          name="phone"
+          id="phone"
+          value={phone}
         />{" "}
         &nbsp;
         <button type="submit">Add</button>
       </form>
       <div>
-        <h2>Numbers </h2>
+        <h2>phones </h2>
         {person.length > 0 &&
           person.map((p) => (
             <li key={p.id}>
-              {p.name} : {p.number}{" "}
+              {p.name} : {p.phone}{" "}
               <button onClick={() => handleDelete(p.id)}>Delete</button>
             </li>
           ))}
