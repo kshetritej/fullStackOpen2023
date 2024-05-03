@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 dotenv.config();
 
 const Contact = require("./models/contactModel");
+const errorHandler = require("./middlewares/errorHandler.middleware");
 
 morgan.token("req-body", (req, res) => {
   return JSON.stringify(req.body);
@@ -40,7 +41,9 @@ app.get("/api/persons/", (request, response) => {
 //works
 app.get("/api/persons/:id", (request, response) => {
   const id = request.params.id;
-  Contact.findById(id).then((person) => response.json(person));
+  Contact.findById(id).then((person) => {
+    response.json(person);
+  });
 });
 
 //works
@@ -62,10 +65,26 @@ app.post("/api/persons/", (req, res) => {
   res.status(201).json(newPerson);
 });
 
+//update
+app.put("/api/persons/:id", (request, response, next) => {
+  const body = request.body;
+
+  const contact = {
+    name: body.name,
+    phone: body.phone,
+  };
+
+  Contact.findByIdAndUpdate(request.params.id, contact, { new: true })
+    .then((updatedContact) => {
+      response.json(updatedContact);
+    })
+    .catch((error) => next(error));
+});
+
 //works
 app.delete("/api/persons/:id", (req, res) => {
   const id = req.params.id;
-  Contact.findByIdAndDelete(id).then((result) => res.status(203).json(result));
+  Contact.findByIdAndDelete(id).then((result) => res.status(204).json(result));
 });
 
 //works
@@ -80,7 +99,7 @@ app.get("/api/info", (req, res) => {
 });
 
 app.use(unknownEndpoint);
-
+app.use(errorHandler);
 app.listen(process.env.PORT, () => {
   console.log("Server running on port ", process.env.PORT);
 });
