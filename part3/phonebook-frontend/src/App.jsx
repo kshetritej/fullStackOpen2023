@@ -21,7 +21,9 @@ function App() {
     fetchData();
   }, []);
 
-  const searchResults = [person.find((p) => p.name === search)];
+  const searchResults = person.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   // const personExists =
   //   person.length > 0 &&
