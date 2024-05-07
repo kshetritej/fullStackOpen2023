@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const mongoose = require("mongoose");
 dotenv.config();
 
 const Contact = require("./models/contactModel");
@@ -13,7 +12,7 @@ morgan.token("req-body", (req, res) => {
 });
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
+  response.status(404).json({ error: "unknown endpoint" });
 };
 
 const app = express();
@@ -47,22 +46,31 @@ app.get("/api/persons/:id", (request, response) => {
 });
 
 //works
-app.post("/api/persons/", (req, res) => {
+app.post("/api/persons/", (req, res, next) => {
+  console.log("POST REQUEST");
   const body = req.body;
-
+  console.log("got REQUEST");
+  console.log("trying to save");
   if (!body.name || !body.phone) {
     return res.status(400).json({ error: "name or number is missing" });
   }
 
+  console.log("creating new person");
   const newPerson = new Contact({
     name: body.name,
     phone: body.phone,
   });
-
-  newPerson.save().then((newContact) => {
-    console.log(`Added ${newContact.name} : ${newContact.phone} to Phonebook!`);
-  });
-  res.status(201).json(newPerson);
+  console.log("saving ...");
+  newPerson
+    .save()
+    .then((newContact) => {
+      res.status(201).json(newContact);
+    })
+    .catch((error) => {
+      console.log("Error: ", error.message);
+      console.log("going to errorhandler");
+      next(error);
+    });
 });
 
 //update

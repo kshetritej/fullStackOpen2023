@@ -9,8 +9,16 @@ mongoose
   .then((result) => console.log(`db connection successfull!`))
   .catch((err) => console.log(`error connecting to database!`, err));
 const contactSchema = new mongoose.Schema({
-  name: String,
-  phone: Number,
+  name: {
+    minLength: 3,
+    required: true,
+    type: String,
+  },
+
+  phone: {
+    required: true,
+    type: Number,
+  },
 });
 
 contactSchema.set("toJSON", {
