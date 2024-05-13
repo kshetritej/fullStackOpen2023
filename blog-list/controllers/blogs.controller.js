@@ -15,4 +15,26 @@ blogsRouter.post("/", (request, response) => {
   });
 });
 
+blogsRouter.delete("/:id", (request, response) => {
+  Blog.findByIdAndDelete(request.params.id)
+    .then(() => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
+});
+
+blogsRouter.put("/:id", (request, response) => {
+  const body = request.body;
+
+  const blog = {
+    title: body.title,
+  };
+
+  Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    .then((updatedBlog) => {
+      response.json(updatedBlog);
+    })
+    .catch((error) => next(error));
+});
+
 module.exports = blogsRouter;

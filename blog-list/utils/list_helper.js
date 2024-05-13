@@ -14,6 +14,7 @@ const totalLikes = (blogs) => {
 
 const favouriteBlog = (blogs) => {
   //return blogs with highest likes count
+  let newBlog;
 
   const likes = blogs.map((blog) => blog.likes);
 
