@@ -42,9 +42,9 @@ test("a valid blog can be added", async () => {
     author: "tester",
     url: "www.test.com",
     votes: 10,
-  }; 
+  };
 
-  api
+  await api
     .post("/api/blogs")
     .send(newBlog)
     .expect(201)
@@ -52,6 +52,34 @@ test("a valid blog can be added", async () => {
 
   const response = await api.get("/api/blogs");
   assert.strictEqual(response.body.length, initialBlogs.length + 1);
+});
+
+test("if likes property is missing, it will default to 0", async () => {
+  const newBlog = {
+    title: "stress management",
+    author: "chaudhary",
+    url: "www.stress.com",
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const response = await api.get("/api/blogs");
+  const likes = response.body.map((blog) => blog.votes);
+  assert.strictEqual(likes[likes.length - 1], 0);
+});
+
+test("if title and url are missing, return 400", async () => {
+  const newBlog = {
+    author: "tester",
+    votes: 10,
+  };
+
+  await api.post("/api/blogs").send(newBlog).expect(400);
+  assert.strictEqual(initialBlogs.length, 2);
 });
 
 after(async () => {

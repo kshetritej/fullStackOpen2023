@@ -25,7 +25,7 @@ const blogSchema = new mongoose.Schema({
   },
   votes: {
     type: Number,
-    required: true,
+    default: 0,
   },
 });
 blogSchema.set("toJSON", {
