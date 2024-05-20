@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-
+const mongoose = require('mongoose')
 const user = new mongoose.Schema({
     name: {
         type: String,
@@ -11,6 +10,12 @@ const user = new mongoose.Schema({
         minLength: 3,
     },
     passwordHash: String,
+    blogs: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Blog"
+        }
+    ]
 })
 
 user.set("toJSON",{
