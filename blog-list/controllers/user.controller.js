@@ -3,14 +3,14 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
 userRouter.get("/", async (req, res) => {
-    const users = await User.find({})
+    const users = await User.find({}).populate("blogs");
     return res.status(200).json(users)
 });
 
 userRouter.post("/register", async (req, res) => {
 
-    if(req.body.password.length < 3 ){
-        return res.status(400).json({"message":"password must be longer than 3 characters!"})
+    if (!req.body.password || req.body.password.length < 3) {
+        return res.status(400).json({ "message": "password is required and must be longer than 3 characters!" })
     }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -20,8 +20,8 @@ userRouter.post("/register", async (req, res) => {
 
 
     const user = new User({
-        name : req.body.name,
-        username : req.body.username,
+        name: req.body.name,
+        username: req.body.username,
         passwordHash: hashPassword,
     });
 

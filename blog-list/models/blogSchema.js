@@ -15,9 +15,6 @@ const blogSchema = new mongoose.Schema({
     minLength: 5,
     maxLength: 50,
   },
-  author: {
-    type: String,
-  },
   url: {
     type: String,
     required: true,
@@ -27,7 +24,8 @@ const blogSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  user:{
+  author:{
+    required: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }
