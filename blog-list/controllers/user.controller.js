@@ -9,6 +9,9 @@ userRouter.get("/", async (req, res) => {
 
 userRouter.post("/register", async (req, res) => {
 
+    if(req.body.password.length < 3 ){
+        return res.status(400).json({"message":"password must be longer than 3 characters!"})
+    }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
 
     if (!req.body.name || !req.body.username || !hashPassword) {
