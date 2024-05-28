@@ -1,7 +1,7 @@
-const { error } = require("../utils/logger");
+const logger = require("../utils/logger");
 
 const unknownEndpoint = (req, res) => {
-  error("Unknown endpoint");
+  logger.error("Unknown endpoint");
   res.status(400).json({ message: "Unknown endpoint" });
 };
 

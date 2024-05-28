@@ -3,7 +3,6 @@ const config = require("../utils/config");
 const logger = require("../utils/logger");
 const mongoUri = config.MONGO_URI;
 
-logger.info(mongoUri)
 mongoose
   .connect(mongoUri)
   .then(() => logger.info("Connected to MongoDB"))
