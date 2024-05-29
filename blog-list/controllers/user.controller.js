@@ -1,9 +1,11 @@
 const userRouter = require("express").Router();
+const logger = require("../utils/logger");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 userRouter.get("/", async (req, res) => {
-    const users = await User.find({}).populate("blogs");
+    const users = await User.find({}).populate("blogs",{title: 1});
     return res.status(200).json(users)
 });
 
@@ -29,4 +31,29 @@ userRouter.post("/register", async (req, res) => {
     return res.status(201).json(user)
 })
 
+
+userRouter.post("/login", async (req, res) => {
+    const {username, password} = req.body;
+    const user = await User.findOne({username});
+    logger.info(user.name, user.username, user.passwordHash);
+
+    const passwordVerified = user === null ? false : await bcrypt.compare(password, user.passwordHash);
+    if(!(user && passwordVerified)){
+        return res.status(401).json({message: "Invalid credentials"})
+    }
+
+    const userForToken = {
+        username: user.username,
+        id : user._id,
+    }
+    const token = jwt.sign(userForToken, process.env.JWT_SECRET, {expiresIn: 60*60});
+
+    res.status(201).json({
+        "token":token,
+        "username":user.username,
+        "name": user.name
+    });
+
+    
+})
 module.exports = userRouter;

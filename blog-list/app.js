@@ -11,7 +11,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/api/blogs", blogsRouter);
-app.use("/api/user/", userRouter);
+app.use("/api/users/", userRouter);
 app.use(unknownEndpoint)
 
 app.use(errorHandler)

@@ -2,20 +2,32 @@ const blogsRouter = require("express").Router();
 const Blog = require("../models/blogSchema");
 const User = require("../models/user")
 const logger = require("../utils/logger");
+const jwt = require("jsonwebtoken");
 
 blogsRouter.get("/", async (request, response) => {
-  const blogs =   await Blog.find({}).populate('');
+  const blogs = await Blog.find({}).populate("author", { name: 1 });
   response.status(200).json(blogs);
 });
 
+const getTokenFrom = req => {
+  const auth = req.get("authorization");
+  if (auth && auth.startsWith('Bearer')) return auth.replace('Bearer ', '');
+}
+
 blogsRouter.post("/", async (request, response) => {
-  const user = await User.findById(request.body.userId);
+  const body = request.body;
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.JWT_SECRET);
+
+  if (!decodedToken.id) return res.status(401).json({ message: "Unauthorized, invalid token" })
+  const user = await User.findById(decodedToken.id);
+  logger.info(decodedToken.id)
+
 
   const blog = new Blog({
-    title: request.body.title,
-    url: request.body.url,
-    votes: request.body.votes || 0,
-    author: request.body.userId,
+    title: body.title,
+    url: body.url,
+    votes: body.votes || 0,
+    author: decodedToken.id,
   })
 
   logger.info(user.name);
