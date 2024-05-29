@@ -20,7 +20,6 @@ userRouter.post("/register", async (req, res) => {
         return res.status(400).json({ "message": "all fields are required" })
     }
 
-
     const user = new User({
         name: req.body.name,
         username: req.body.username,
@@ -35,7 +34,6 @@ userRouter.post("/register", async (req, res) => {
 userRouter.post("/login", async (req, res) => {
     const {username, password} = req.body;
     const user = await User.findOne({username});
-    logger.info(user.name, user.username, user.passwordHash);
 
     const passwordVerified = user === null ? false : await bcrypt.compare(password, user.passwordHash);
     if(!(user && passwordVerified)){
