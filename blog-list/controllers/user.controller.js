@@ -54,4 +54,12 @@ userRouter.post("/login", async (req, res) => {
 
     
 })
+
+
+//clean the database
+
+userRouter.delete("/", async(req, res) => {
+    await User.deleteMany({})
+    res.status(200).json({message: 'all users removed!'})
+})
 module.exports = userRouter;
