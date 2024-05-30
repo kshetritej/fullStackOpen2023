@@ -13,7 +13,6 @@ blogsRouter.get("/", async (request, response) => {
 
 blogsRouter.post("/", jwtmiddleware.tokenExtractor, async (request, response) => {
   const body = request.body;
-
   const decodedToken = jwt.verify(request.token, process.env.JWT_SECRET);
   if (!decodedToken.id) return res.status(401).json({ message: "Unauthorized, invalid token" })
   const user = await User.findById(decodedToken.id);
@@ -35,15 +34,13 @@ blogsRouter.post("/", jwtmiddleware.tokenExtractor, async (request, response) =>
   response.status(201).json(savedBlog);
 });
 
-blogsRouter.delete("/:id", jwtmiddleware.tokenExtractor, async (request, response) => {
+blogsRouter.delete("/:id", jwtmiddleware.tokenExtractor,jwtmiddleware.userExtractor, async (request, response) => {
 
   const decodedToken = jwt.verify(request.token, process.env.JWT_SECRET);
   const blog = await Blog.findById(request.params.id);
+  const user = request.user
 
-  logger.info('decoded id', decodedToken.id.toString())
-  logger.info('author id: ', blog.author.toString());
-
-  if (blog.author.toString() == decodedToken.id) {
+  if (blog.author.toString() == user.id) {
     await Blog.findByIdAndDelete(blog.id);
     logger.info('blog deleted')
   } else {
@@ -52,15 +49,14 @@ blogsRouter.delete("/:id", jwtmiddleware.tokenExtractor, async (request, respons
   response.status(204).end();
 });
 
-blogsRouter.put("/:id", jwtmiddleware.tokenExtractor, async (request, response) => {
+blogsRouter.put("/:id", jwtmiddleware.tokenExtractor,jwtmiddleware.userExtractor, async (request, response) => {
   const body = request.body;
-  const decodedToken = jwt.verify(request.token, process.env.JWT_SECRET);
   const { title, author, url, votes } = await Blog.findById(request.params.id);
+  const user = request.user;
 
-  logger.info('decoded token:', decodedToken.id)
-  logger.info('author id:', author.toString())
+  logger.info('author id:', user.id.toString())
 
-  if (decodedToken.id.toString() === author.toString()) {
+  if (user.id.toString() === author.toString()) {
     const blog = {
       title: body.title || title,
       author: body.author || author,

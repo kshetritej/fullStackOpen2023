@@ -16,8 +16,7 @@ const tokenExtractor = (req, res, next) => {
 
 const userExtractor = async (req, res, next) => {
     const u = jwt.verify(req.token, process.env.JWT_SECRET);
-    const uId = u.id
-    const user = await User.findOne({ uId })
+    const user = await User.findOne({ _id: u.id})
     req.user = user;
 
     next();
