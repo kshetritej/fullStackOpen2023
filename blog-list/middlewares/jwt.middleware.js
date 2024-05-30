@@ -8,13 +8,16 @@ const tokenExtractor = (req, res, next) => {
         req.token = token
         next()
     }
+    else {
+        res.status(404).json({ msg: 'no auth provided' })
+    }
 }
 
 
 const userExtractor = async (req, res, next) => {
     const u = jwt.verify(req.token, process.env.JWT_SECRET);
     const uId = u.id
-    const user = await User.findOne({uId})
+    const user = await User.findOne({ uId })
     req.user = user;
 
     next();

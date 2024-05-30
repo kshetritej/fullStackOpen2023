@@ -52,21 +52,33 @@ blogsRouter.delete("/:id", jwtmiddleware.tokenExtractor, async (request, respons
   response.status(204).end();
 });
 
-blogsRouter.put("/:id", async (request, response) => {
+blogsRouter.put("/:id", jwtmiddleware.tokenExtractor, async (request, response) => {
   const body = request.body;
+  const decodedToken = jwt.verify(request.token, process.env.JWT_SECRET);
   const { title, author, url, votes } = await Blog.findById(request.params.id);
 
-  const blog = {
-    title: body.title || title,
-    author: body.author || author,
-    url: body.url || url,
-    votes: body.votes || votes,
-  };
+  logger.info('decoded token:', decodedToken.id)
+  logger.info('author id:', author.toString())
 
-  await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-  response.json(blog);
+  if (decodedToken.id.toString() === author.toString()) {
+    const blog = {
+      title: body.title || title,
+      author: body.author || author,
+      url: body.url || url,
+      votes: body.votes || votes,
+    };
+
+    await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    response.json({
+      success: true,
+      data: blog
+    });
+  }
+
 });
 
+
+//deletes all blogs
 blogsRouter.delete("/", async (req, res) => {
   logger.info('deleting blogs')
   const result = await Blog.deleteMany({});
