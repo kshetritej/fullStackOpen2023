@@ -9,13 +9,23 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
+  const [blogData, setBlogData] = useState({
+    title: "",
+    url: "",
+    author: JSON.parse(window.localStorage.getItem("user")).username
+  });
 
+  const handleBlogFormChange = (event) => {
+    const { name, value } = event.target;
+    setBlogData({ ...blogData, [name]: value });
+    console.log(blogData);
+  };
 
   const handleBlogSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const res = await blogService.add(blogObject, user.token);
+      const res = await blogService.create(blogData);
       setBlogs(...blogs, blogObject);
     } catch (e) {
       setError("error adding blog");
@@ -41,7 +51,7 @@ const App = () => {
     setUser(null);
   };
 
-  const handleLogin= async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const res = await blogService.login({ username, password });
@@ -58,13 +68,25 @@ const App = () => {
 
   const addBlogForm = () => (
     <form onSubmit={handleBlogSubmit}>
-      <h2>Add new blog list</h2>
-      <label htmlFor="title">Blog Title</label>
-      <input type="text" id="title" name="title" />
-
-      <label htmlFor="url">url</label>
-      <input type="text" id="url" name="url" />
-
+      <h2>Add new blog list</h2> <br />
+      <label htmlFor="title">Blog Title</label> <br />
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value={blogData.title}
+        onChange={handleBlogFormChange}
+      />{" "}
+      <br />
+      <label htmlFor="url">url</label> <br />
+      <input
+        type="text"
+        id="url"
+        name="url"
+        value={blogData.url}
+        onChange={handleBlogFormChange}
+      />{" "}
+      <br />
       <button type="submit">add</button>
     </form>
   );
@@ -99,7 +121,7 @@ const App = () => {
       <Notification message={error} />
       {!user ? loginForm() : `${user.name}'s blog lists`}
       {user && <button onClick={() => logout()}>logout</button>}
-
+      {user && addBlogForm()}
       {user && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
     </div>
   );
