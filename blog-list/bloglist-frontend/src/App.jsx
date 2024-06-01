@@ -10,6 +10,17 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
 
+
+  const handleBlogSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const res = await blogService.add(blogObject, user.token);
+      setBlogs(...blogs, blogObject);
+    } catch (e) {
+      setError("error adding blog");
+    }
+  };
   useEffect(() => {
     const getBlogs = async () => {
       const blogs = await blogService.getAll();
@@ -25,17 +36,18 @@ const App = () => {
   }, []);
 
   const logout = () => {
-    console.log('clicked')
+    console.log("clicked");
     window.localStorage.clear();
-    setUser(null)
+    setUser(null);
   };
 
-  const handleSubmit = async (event) => {
+  const handleLogin= async (event) => {
     event.preventDefault();
     try {
       const res = await blogService.login({ username, password });
       setUser(res);
       window.localStorage.setItem("user", JSON.stringify(res));
+      blogService.setToken(user.token);
     } catch (e) {
       setError("Invalid Credentials");
       setTimeout(() => {
@@ -44,8 +56,21 @@ const App = () => {
     }
   };
 
+  const addBlogForm = () => (
+    <form onSubmit={handleBlogSubmit}>
+      <h2>Add new blog list</h2>
+      <label htmlFor="title">Blog Title</label>
+      <input type="text" id="title" name="title" />
+
+      <label htmlFor="url">url</label>
+      <input type="text" id="url" name="url" />
+
+      <button type="submit">add</button>
+    </form>
+  );
+
   const loginForm = () => (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleLogin}>
       <h2>Login to continue</h2>
       <label htmlFor="username">Username</label>
       <br />
