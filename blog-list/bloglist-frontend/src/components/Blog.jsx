@@ -4,20 +4,36 @@ import blogService from "../services/blogs";
 const Blog = ({ blog }) => {
   const [view, setView] = useState(false);
   const [like, setLike] = useState(blog.votes);
-
+  const user = JSON.parse(window.localStorage.getItem("user"));
   const handleLikes = async () => {
     const blogId = blog.id;
     const incrementLike = like + 1;
     setLike(incrementLike);
     try {
-      const auth = JSON.parse(window.localStorage.getItem("user")).token;
+      blogService.setToken(user.token);
       const updatedLike = { votes: incrementLike };
       const likeUpdates = await blogService.likeBlog({
         blogId,
         updatedLike,
-        auth,
       });
       return likeUpdates;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleDelete = async () => {
+    const blogId = blog.id;
+    try {
+      blogService.setToken(user.token);
+      const prompt = window.confirm(
+        `Do you really want to delete ${blog.title}?`
+      );
+      if (prompt) {
+        const deleteResponse = await blogService.deleteBlog({ blogId });
+        console.warn(`${blog.title} deleted!`);
+        return deleteResponse;
+      }
     } catch (e) {
       console.log(e);
     }
@@ -31,11 +47,14 @@ const Blog = ({ blog }) => {
       {view && (
         <>
           <p>
-            Link : <a href={blog.url}>{blog.url}</a>
+            Link :{" "}
+            <a href={blog.url} style={{ color: "white" }}>
+              {blog.url}
+            </a>
           </p>
-          <p>Likes: {like}</p>{" "}
-          <p>Added by: {blog.author.name}</p>
+          <p>Likes: {like}</p> <p>Added by: {blog.author.name}</p>
           <button onClick={() => handleLikes()}>like</button>
+          <button onClick={() => handleDelete()}>delete</button>
         </>
       )}
     </div>

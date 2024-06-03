@@ -22,11 +22,19 @@ const getAll = async () => {
 
 const likeBlog = async ({ blogId, updatedLike, auth }) => {
   const secret = {
-    headers: { Authorization: `Bearer ${auth}` },
+    headers: { Authorization: token },
   }
   const res = await axios.put(`${baseUrl}/api/blogs/${blogId}`, updatedLike, secret)
   return res.data;
 }
+const deleteBlog = async ({ blogId }) => {
+  const secret = {
+    headers: { Authorization: token }
+  }
+  const req = await axios.delete(`${baseUrl}/api/blogs/${blogId}`, secret)
+  return req.data;
+}
+
 
 const login = async ({ username, password }) => {
   try {
@@ -39,4 +47,4 @@ const login = async ({ username, password }) => {
 
 }
 
-export default { getAll, login, setToken, create, likeBlog }
+export default { getAll, login, setToken, create, likeBlog, deleteBlog }
