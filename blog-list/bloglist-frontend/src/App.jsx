@@ -17,13 +17,15 @@ const App = () => {
   });
   const [error, setError] = useState();
 
+
   useEffect(() => {
     const getBlogs = async () => {
       const blogs = await blogService.getAll();
-      setBlogs(blogs);
+      const sortedBlogs = blogs.sort((a,b)=> b.votes - a.votes)
+      setBlogs(sortedBlogs);
     };
     getBlogs();
-  }, []);
+  }, [blogs]);
 
   const handleBlogSubmit = async (event) => {
     event.preventDefault();
@@ -38,7 +40,6 @@ const App = () => {
       setError("error while adding blogs");
     }
   };
-
 
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem("user");

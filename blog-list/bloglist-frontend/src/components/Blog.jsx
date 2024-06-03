@@ -34,6 +34,7 @@ const Blog = ({ blog }) => {
             Link : <a href={blog.url}>{blog.url}</a>
           </p>
           <p>Likes: {like}</p>{" "}
+          <p>Added by: {blog.author.name}</p>
           <button onClick={() => handleLikes()}>like</button>
         </>
       )}
