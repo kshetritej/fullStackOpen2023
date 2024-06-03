@@ -4,17 +4,13 @@ const baseUrl = 'http://localhost:8080'
 let token;
 
 const setToken = newToken => {
-  console.log('received new token')
   token = `Bearer ${newToken}`
-  console.log('final token', token)
 }
+
 const create = async blogObject => {
-  console.log('creating config...')
   const config = {
     headers: { Authorization: token },
   }
-  console.log('set auth header ', token)
-  console.log('posting data...')
   const res = await axios.post(`${baseUrl}/api/blogs/`, blogObject, config)
   return res.data
 }
@@ -24,6 +20,13 @@ const getAll = async () => {
   return request.data
 }
 
+const likeBlog = async ({ blogId, updatedLike, auth }) => {
+  const secret = {
+    headers: { Authorization: `Bearer ${auth}` },
+  }
+  const res = await axios.put(`${baseUrl}/api/blogs/${blogId}`, updatedLike, secret)
+  return res.data;
+}
 
 const login = async ({ username, password }) => {
   try {
@@ -36,4 +39,4 @@ const login = async ({ username, password }) => {
 
 }
 
-export default { getAll, login, setToken, create }
+export default { getAll, login, setToken, create, likeBlog }

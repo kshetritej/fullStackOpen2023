@@ -39,6 +39,7 @@ const App = () => {
     }
   };
 
+
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem("user");
     if (loggedInUser) setUser(JSON.parse(loggedInUser));
@@ -97,7 +98,6 @@ const App = () => {
               <button onClick={() => setOpen(!open)}>add new blog</button>
             )}
       </div>
-      {/* {user && addBlogForm()} */}
       {user && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
     </div>
   );
