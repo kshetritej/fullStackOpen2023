@@ -17,11 +17,10 @@ const App = () => {
   });
   const [error, setError] = useState();
 
-
   useEffect(() => {
     const getBlogs = async () => {
       const blogs = await blogService.getAll();
-      const sortedBlogs = blogs.sort((a,b)=> b.votes - a.votes)
+      const sortedBlogs = blogs.sort((a, b) => b.votes - a.votes);
       setBlogs(sortedBlogs);
     };
     getBlogs();
@@ -96,10 +95,12 @@ const App = () => {
         {user && open
           ? addBlogForm()
           : user && (
-              <button onClick={() => setOpen(!open)}>add new blog</button>
-            )}
+            <button onClick={() => setOpen(!open)}>add new blog</button>
+          )}
       </div>
-      {user && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
+      {blogs.map((blog) => (
+        <Blog key={blog.id} blog={blog} />
+      ))}
     </div>
   );
 };

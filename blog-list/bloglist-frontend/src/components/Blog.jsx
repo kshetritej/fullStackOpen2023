@@ -39,7 +39,7 @@ const Blog = ({ blog }) => {
     }
   };
   return (
-    <div style={{ border: "1px solid white", padding: "2px" }}>
+    <div style={{ border: "1px solid white", padding: "2px" }} className="blog">
       <h3>{blog.title}</h3>
       <button onClick={() => setView(!view)}>
         {!view ? "view details" : "hide details"}
@@ -54,7 +54,14 @@ const Blog = ({ blog }) => {
           </p>
           <p>Likes: {like}</p> <p>Added by: {blog.author.name}</p>
           <button onClick={() => handleLikes()}>like</button>
-          <button onClick={() => handleDelete()}>delete</button>
+          {user && (
+            <button
+              onClick={() => handleDelete()}
+              style={{ background: "red" }}
+            >
+              delete
+            </button>
+          )}
         </>
       )}
     </div>
