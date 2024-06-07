@@ -3,7 +3,7 @@ import blogService from "../services/blogs";
 
 const Blog = ({ blog }) => {
   const [view, setView] = useState(false);
-  const [like, setLike] = useState(blog.votes);
+  const [like, setLike] = useState(blog.votes || 0);
   const user = JSON.parse(window.localStorage.getItem("user"));
   const handleLikes = async () => {
     const blogId = blog.id;
