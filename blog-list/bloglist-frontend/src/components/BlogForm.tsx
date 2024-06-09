@@ -14,6 +14,7 @@ const BlogForm = ({open, setOpen, blogData, setBlogData, handleBlogSubmit }) => 
         <h2>Add new blog to the list</h2> <br />
         <label htmlFor="title">Blog Title</label> <br />
         <input
+          data-testid="blog_title"
           type="text"
           id="title"
           name="title"
@@ -23,6 +24,7 @@ const BlogForm = ({open, setOpen, blogData, setBlogData, handleBlogSubmit }) => 
         <br />
         <label htmlFor="url">url</label> <br />
         <input
+          data-testid="blog_url"
           type="text"
           id="url"
           name="url"
