@@ -12,6 +12,8 @@
   "author": "kshetritej",
   "license": "ISC",
   "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.14.2",
     "bcrpyt": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
