@@ -1,5 +1,7 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test');
 const exp = require('constants');
+const { name } = require('../playwright.config');
+const { loginWith } = require('./e2ehelper');
 
 describe('Blog app', () => {
     beforeEach(async ({ page }) => {
@@ -14,12 +16,22 @@ describe('Blog app', () => {
         await expect(page.getByRole('textbox').first()).toBeVisible();
     });
 
-    test('login succeeds with correct credentials', async ({ page }) => { });
+    test('login succeeds with correct credentials', async ({ page }) => { 
+        await loginWith('tej', 'hello123', page);
+        await expect((page).getByRole('button', {name: 'logout'})).toBeVisible();
+    });
 
-    test('login fails with wrong credentials', async ({ page }) => { });
+    test('login fails with wrong credentials', async ({ page }) => { 
+        await loginWith('tej', 'wrong_password', page);
+        await expect((page).getByText('Invalid Credentials')).toBeVisible();
 
 
-    test('logged in user can create a blog', async ({ page }) => { })
+    });
+
+
+    test('logged in user can create a blog', async ({ page }) => {
+        
+     })
 
 
     test('a blog can be liked', async ({ page }) => { })
